@@ -1,0 +1,31 @@
+import { randomUUID } from 'node:crypto'
+import { DataBase } from "./database.js"
+
+const database = new DataBase()
+
+export const routes = [
+  {
+    method: 'GET',
+    path: '/users',
+    handler: (request, response) => {
+      const users = database.select('users')
+      return response.end(JSON.stringify(users))
+    }
+  },
+  {
+    method: 'POST',
+    path: '/users',
+    handler: (request, response) => {
+      const { name, email } = request.body
+      const user = {
+        id: randomUUID(),
+        name,
+        email
+      }
+
+      database.insert('users', user)
+
+      return response.writeHead(201).end();
+    }
+  }
+]
