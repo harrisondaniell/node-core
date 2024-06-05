@@ -20,9 +20,15 @@ export class DataBase {
     fs.writeFile(databasePath, JSON.stringify(this.#database))
   }
 
-  select(table) {
-    const data = this.#database[table] ?? [] 
+  select(table, search) {
+    let data = this.#database[table] ?? [] 
+    // let it change
 
+    if (search) {
+      data = data.filter(row => {
+        return Object.entries(search).some()
+      })
+    }
     return data
   }
 
