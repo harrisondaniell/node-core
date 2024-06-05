@@ -20,13 +20,19 @@ export class DataBase {
     fs.writeFile(databasePath, JSON.stringify(this.#database))
   }
 
+// Object.entries
+// { name: 'daniel', email: 'daniel'}
+// [['name', 'daniel'], ['email', 'Diego']] 
+
   select(table, search) {
     let data = this.#database[table] ?? [] 
     // let it change
 
     if (search) {
       data = data.filter(row => {
-        return Object.entries(search).some()
+        return Object.entries(search).some(([key, value]) => {
+          return row[key].toLowerCase().includes(value.toLowerCase())
+        })
       })
     }
     return data
